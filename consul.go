@@ -1,7 +1,7 @@
 package config
 
 import (
-	"git.orx.me/cat/contract"
+	"github.com/weeon/contract"
 	"github.com/hashicorp/consul/api"
 	"github.com/orvice/kit/consul"
 )
