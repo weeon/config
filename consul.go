@@ -1,9 +1,10 @@
 package config
 
 import (
-	"github.com/weeon/contract"
 	"github.com/hashicorp/consul/api"
 	"github.com/orvice/kit/consul"
+	"github.com/orvice/utils/env"
+	"github.com/weeon/contract"
 )
 
 type ConsulConfig struct {
@@ -33,4 +34,10 @@ func NewConsulConfig(host, token string) (*ConsulConfig, error) {
 	return &ConsulConfig{
 		client: client,
 	}, nil
+}
+
+func NewConsulConfigFromEnv() (*ConsulConfig, error) {
+	consulAddr := env.Get("CONSUL_ADDR")
+	consulToken := env.Get("CONSUL_TOKEN")
+	return NewConsulConfig(consulAddr, consulToken)
 }
