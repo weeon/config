@@ -1,14 +1,14 @@
 package config
 
 import (
+	"os"
+
 	"github.com/hashicorp/consul/api"
-	"github.com/orvice/kit/consul"
-	"github.com/orvice/utils/env"
 	"github.com/weeon/contract"
 )
 
 type ConsulConfig struct {
-	client *consul.Client
+	client *ConsulClient
 }
 
 var _ contract.Config = new(ConsulConfig)
@@ -23,7 +23,7 @@ func (c *ConsulConfig) Set(key string, value []byte) error {
 
 func NewConsulConfig(host, token string) (*ConsulConfig, error) {
 
-	client, err := consul.NewClient(&api.Config{
+	client, err := NewConsulClient(&api.Config{
 		Address: host,
 		Token:   token,
 	})
@@ -37,7 +37,7 @@ func NewConsulConfig(host, token string) (*ConsulConfig, error) {
 }
 
 func NewConsulConfigFromEnv() (*ConsulConfig, error) {
-	consulAddr := env.Get("CONSUL_ADDR")
-	consulToken := env.Get("CONSUL_TOKEN")
+	consulAddr := os.Getenv("CONSUL_ADDR")
+	consulToken := os.Getenv("CONSUL_TOKEN")
 	return NewConsulConfig(consulAddr, consulToken)
 }
